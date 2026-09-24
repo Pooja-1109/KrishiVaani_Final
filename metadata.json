@@ -1,0 +1,8 @@
+{
+  "name": "Remix KRISHIVAANI - Risk-Aware Market Linkage \u0026 Net Realisation Platform",
+  "description": "Risk-aware market linkage, dynamic net-realisation calculator, FPO aggregation, sell-or-wait recommendations, direct buyer bidding, and crop rescue network for Indian farmers.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
