@@ -215,9 +215,9 @@ export const Module1MarketPrices: React.FC<Module1Props> = ({ onNavigateToNetCal
                 { label: '50 km', value: 50 },
                 { label: '100 km', value: 100 },
                 { label: localizedLabels.radiusAll, value: undefined },
-              ].map((opt, idx) => (
+              ].map((opt) => (
                 <button
-                  key={idx}
+                  key={opt.value !== undefined ? `radius-${opt.value}` : 'radius-all'}
                   onClick={() => setSelectedRadius(opt.value)}
                   className={`px-2.5 py-1 rounded-lg font-bold transition-all cursor-pointer ${
                     selectedRadius === opt.value
@@ -316,7 +316,7 @@ export const Module1MarketPrices: React.FC<Module1Props> = ({ onNavigateToNetCal
                     : 'Recorded';
 
                   return (
-                    <tr key={p.id} className="hover:bg-stone-50/80 transition-colors">
+                    <tr key={p.id ? `mkt-price-${p.id}` : `mkt-crop-${p.market_id}-${p.crop_id}`} className="hover:bg-stone-50/80 transition-colors">
                       <td className="py-3.5 px-4">
                         <div className="font-extrabold text-stone-900">{p.market_name}</div>
                         <div className="text-[11px] text-stone-500">

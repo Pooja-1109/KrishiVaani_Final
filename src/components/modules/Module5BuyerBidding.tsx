@@ -952,7 +952,7 @@ export const Module5BuyerBidding: React.FC<Module5Props> = ({ initialView, onNav
 
                 return (
                   <div
-                    key={idx}
+                    key={m.id ? `prod-match-${m.id}` : pItem.id ? `prod-item-${isFpo ? 'fpo' : 'farmer'}-${pItem.id}` : `prod-match-${idx}`}
                     className="bg-white border border-stone-200 rounded-xl p-4 sm:p-5 shadow-2xs space-y-4 hover:border-emerald-500 transition-colors"
                   >
                     {/* Header */}
@@ -1041,7 +1041,7 @@ export const Module5BuyerBidding: React.FC<Module5Props> = ({ initialView, onNav
                       {explainable?.calculation?.steps ? (
                         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
                           {explainable.calculation.steps.map((step: any, sIdx: number) => (
-                            <div key={sIdx} className="bg-white p-2 rounded border border-stone-200 flex items-center justify-between">
+                            <div key={step.stepNumber !== undefined ? `exp-step-${step.stepNumber}` : `exp-step-${sIdx}`} className="bg-white p-2 rounded border border-stone-200 flex items-center justify-between">
                               <span className="text-[11px] text-stone-600 truncate mr-1">
                                 {language === 'mr' ? step.labelMr : language === 'hi' ? step.labelHi : step.labelEn}
                               </span>
@@ -1089,7 +1089,7 @@ export const Module5BuyerBidding: React.FC<Module5Props> = ({ initialView, onNav
                       </div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-[11px] text-stone-800">
                         {reasons.map((r: string, rIdx: number) => (
-                          <div key={rIdx} className="flex items-start gap-1.5">
+                          <div key={`why-reason-${rIdx}`} className="flex items-start gap-1.5">
                             <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
                             <span>{r}</span>
                           </div>
@@ -1353,7 +1353,7 @@ export const Module5BuyerBidding: React.FC<Module5Props> = ({ initialView, onNav
 
                 return (
                   <div
-                    key={idx}
+                    key={req.id ? `farmer-matched-req-${req.id}` : `farmer-matched-req-${idx}`}
                     className="bg-white border border-stone-200 rounded-xl p-4 shadow-2xs space-y-3"
                   >
                     <div className="flex items-start justify-between">
@@ -1383,7 +1383,7 @@ export const Module5BuyerBidding: React.FC<Module5Props> = ({ initialView, onNav
                         <span>Why this match? (Score: {score}%)</span>
                       </div>
                       {reasons.map((r: string, rIdx: number) => (
-                        <div key={rIdx} className="flex items-center gap-1 text-stone-700">
+                        <div key={`fm-reason-${rIdx}`} className="flex items-center gap-1 text-stone-700">
                           <Check className="w-3 h-3 text-emerald-600 shrink-0" />
                           <span>{r}</span>
                         </div>
@@ -1900,7 +1900,7 @@ export const Module5BuyerBidding: React.FC<Module5Props> = ({ initialView, onNav
                     <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
                       {module2Result.mandiComparison.slice(0, 3).map((mandi: any, mIdx: number) => (
                         <div
-                          key={mIdx}
+                          key={mandi.marketId ? `mandi-comp-${mandi.marketId}` : `mandi-comp-${mIdx}`}
                           className="flex items-center justify-between p-2.5 bg-stone-50 rounded-lg border border-stone-200 text-stone-700"
                         >
                           <div>

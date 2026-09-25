@@ -74,17 +74,7 @@ function MainApp() {
   }
 
   if (!user) {
-    return (
-      <div>
-        <Navbar
-          currentTab="auth"
-          onSelectTab={() => {}}
-          onOpenNotifications={() => {}}
-          unreadCount={0}
-        />
-        <AuthScreen />
-      </div>
-    );
+    return <AuthScreen />;
   }
 
   const navigateToTab = (tab: string, extra?: any) => {

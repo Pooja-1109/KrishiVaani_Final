@@ -298,7 +298,7 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({
           <div className="absolute z-30 mt-1 w-full bg-white border border-stone-300 rounded-lg shadow-xl max-h-48 overflow-y-auto">
             {searchResults.map((item, idx) => (
               <button
-                key={idx}
+                key={item.placeId ? `loc-search-${item.placeId}` : `loc-search-${item.placeName}-${item.lat}-${item.lon}-${idx}`}
                 type="button"
                 onClick={() => handleSelectSearchResult(item)}
                 className="w-full text-left px-3 py-2 text-xs hover:bg-emerald-50 border-b border-stone-100 last:border-0 flex items-center justify-between transition-colors"
@@ -371,7 +371,7 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({
                   {activeDistrictObj.talukas.map((tItem, idx) => {
                     const tLabel = language === 'mr' ? tItem.mr : language === 'hi' ? tItem.hi : tItem.en;
                     return (
-                      <option key={idx} value={tLabel}>
+                      <option key={tItem.en ? `taluka-${tItem.en}` : `taluka-${idx}`} value={tLabel}>
                         {tLabel}
                       </option>
                     );

@@ -701,6 +701,10 @@ app.get('/api/market-prices', async (req: Request, res: Response) => {
     sql += ' WHERE ' + whereClauses.join(' AND ');
   }
 
+  if (history !== 'true') {
+    sql += ' GROUP BY mp.market_id, mp.crop_id';
+  }
+
   let prices = queryAll(db, sql, params);
 
   // Determine user coordinates
@@ -765,6 +769,7 @@ app.post('/api/net-realisation/calculate', async (req: Request, res: Response) =
            SELECT MAX(sub.price_date) FROM market_prices sub 
            WHERE sub.market_id = m.id AND sub.crop_id = ?
          )
+       GROUP BY m.id
        ORDER BY m.id ASC`,
       [Number(crop_id), Number(crop_id)]
     );
@@ -2762,6 +2767,8 @@ app.get('/api/admin/buyers', authenticateToken, requireRole('ADMIN'), async (_re
 
 async function startServer() {
   const isProd = process.env.NODE_ENV === 'production';
+
+  app.use(express.static(path.resolve(__dirname, 'public')));
 
   if (!isProd) {
     const { createServer: createViteServer } = await import('vite');

@@ -310,7 +310,7 @@ export const OpenMeteoWeatherCard: React.FC<Props> = ({
           <div className="grid grid-cols-4 sm:grid-cols-7 gap-2 overflow-x-auto">
             {weather.dailyForecast.slice(0, 7).map((day, idx) => (
               <div
-                key={idx}
+                key={day.date ? `forecast-${day.date}` : `forecast-${idx}`}
                 className="bg-white p-2.5 rounded-xl border border-stone-200 text-center text-xs flex flex-col items-center justify-between shadow-2xs hover:border-[#173D32] transition-colors"
               >
                 <span className="text-[11px] text-stone-600 font-bold font-mono">

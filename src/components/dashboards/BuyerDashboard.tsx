@@ -218,7 +218,7 @@ export const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onNavigate }) =>
               };
               return (
                 <div
-                  key={p.id}
+                  key={p.id ? `buyer-match-${p.id}` : `buyer-match-${p.crop_id}-${p.quantity_qtl}`}
                   className="bg-[#FBF9F5] border border-stone-200 rounded-2xl p-4 space-y-3 hover:border-[#173D32] hover:bg-white hover:shadow-md transition-all flex flex-col justify-between"
                 >
                   <div>
@@ -305,7 +305,7 @@ export const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onNavigate }) =>
               </thead>
               <tbody className="divide-y divide-stone-100">
                 {reqs.map((r) => (
-                  <tr key={r.id} className="hover:bg-stone-50/80 transition-colors">
+                  <tr key={r.id ? `buyer-req-${r.id}` : `buyer-req-${r.crop_id}-${r.min_quantity_qtl}`} className="hover:bg-stone-50/80 transition-colors">
                     <td className="py-3.5 px-4">
                       <div className="font-extrabold text-stone-900">{r.crop_name_en}</div>
                       <div className="text-[11px] text-stone-500">{r.variety || 'Any Grade'}</div>

@@ -372,7 +372,7 @@ export const FarmerDashboard: React.FC<FarmerDashboardProps> = ({ onNavigate }) 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {produce.map((lot) => (
               <div
-                key={lot.id}
+                key={lot.id ? `farmer-lot-${lot.id}` : `farmer-lot-${lot.crop_id}-${lot.quantity_qtl}`}
                 className="p-4 rounded-2xl border border-stone-200 bg-[#FBF9F5] hover:bg-white hover:border-[#173D32] hover:shadow-md transition-all flex flex-col justify-between space-y-3"
               >
                 <div>
@@ -608,7 +608,7 @@ export const FarmerDashboard: React.FC<FarmerDashboardProps> = ({ onNavigate }) 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
             {marketPrices.map((mp) => (
               <div
-                key={mp.id}
+                key={mp.id ? `f-mkt-price-${mp.id}` : `f-mkt-${mp.market_id}-${mp.crop_id}`}
                 onClick={() => onNavigate('module1')}
                 className="bg-[#FBF9F5] p-3.5 rounded-xl border border-stone-200 hover:border-[#173D32] hover:bg-white transition-all cursor-pointer flex flex-col justify-between"
               >
@@ -655,7 +655,7 @@ export const FarmerDashboard: React.FC<FarmerDashboardProps> = ({ onNavigate }) 
           <div className="space-y-2.5">
             {bids.slice(0, 3).map((b) => (
               <div
-                key={b.id}
+                key={b.id ? `f-bid-${b.id}` : `f-bid-${b.buyer_id}-${b.produce_id}`}
                 className="p-3.5 rounded-xl border border-stone-200 bg-[#FBF9F5] flex flex-col sm:flex-row sm:items-center justify-between gap-3"
               >
                 <div>

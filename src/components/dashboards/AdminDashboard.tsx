@@ -194,7 +194,7 @@ export const AdminDashboard: React.FC = () => {
             </thead>
             <tbody className="divide-y divide-stone-100">
               {users.map((u) => (
-                <tr key={u.id} className="hover:bg-stone-50">
+                <tr key={`adm-user-${u.id}`} className="hover:bg-stone-50">
                   <td className="py-3 px-4 font-mono text-stone-700">#{u.id}</td>
                   <td className="py-3 px-4 font-bold text-stone-900 tabular-nums">{u.mobile}</td>
                   <td className="py-3 px-4">
@@ -234,7 +234,7 @@ export const AdminDashboard: React.FC = () => {
             </thead>
             <tbody className="divide-y divide-stone-100">
               {farmers.map((f) => (
-                <tr key={f.id} className="hover:bg-stone-50">
+                <tr key={`adm-farmer-${f.id}`} className="hover:bg-stone-50">
                   <td className="py-3 px-4 font-bold text-stone-900">{f.full_name}</td>
                   <td className="py-3 px-4 tabular-nums text-stone-700">{f.mobile}</td>
                   <td className="py-3 px-4 text-stone-700">
@@ -266,7 +266,7 @@ export const AdminDashboard: React.FC = () => {
             </thead>
             <tbody className="divide-y divide-stone-100">
               {buyers.map((b) => (
-                <tr key={b.id} className="hover:bg-stone-50">
+                <tr key={`adm-buyer-${b.id}`} className="hover:bg-stone-50">
                   <td className="py-3 px-4 font-bold text-stone-900">{b.business_name}</td>
                   <td className="py-3 px-4 text-stone-700">
                     {b.contact_person} ({b.mobile})

@@ -278,7 +278,7 @@ export const MLPredictionExplainerCard: React.FC<Props> = ({
 
               return (
                 <div
-                  key={i}
+                  key={fc.targetDate ? `ml-fc-${fc.targetDate}` : `ml-fc-${fc.dayOffset ?? i}`}
                   className="p-3 rounded-lg border border-stone-200 bg-white hover:border-emerald-300 transition-colors"
                 >
                   <div className="flex items-center justify-between text-xs text-stone-700 mb-1">

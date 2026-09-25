@@ -83,7 +83,7 @@ export const NotificationsModal: React.FC<NotificationsModalProps> = ({ onClose 
           ) : (
             notifications.map((n) => (
               <div
-                key={n.id}
+                key={n.id ? `notif-${n.id}` : `notif-${n.created_at}`}
                 className={`py-3 px-2 rounded-lg transition-colors ${
                   !n.read ? 'bg-emerald-50/50' : ''
                 }`}

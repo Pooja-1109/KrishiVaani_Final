@@ -294,7 +294,7 @@ export const Module2NetRealisation: React.FC<Module2Props> = ({ initialCropId })
                 <tbody className="divide-y divide-stone-100">
                   {calculation.rankings.map((r, idx) => (
                     <tr
-                      key={r.marketId}
+                      key={r.marketId ? `ranking-mkt-${r.marketId}` : `ranking-idx-${idx}`}
                       className={`hover:bg-stone-50 transition-colors ${
                         r.isBestMarket ? 'bg-emerald-50/30 font-semibold' : ''
                       }`}

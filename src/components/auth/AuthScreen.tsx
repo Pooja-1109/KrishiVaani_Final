@@ -7,23 +7,17 @@ import { ExtractedFarmProfile } from '../../services/voiceAssistant';
 import {
   Sprout,
   ShieldCheck,
-  TrendingUp,
-  Scale,
-  Users,
   Handshake,
   ArrowRight,
   CheckCircle2,
   AlertCircle,
   Mic,
   Languages,
-  Sparkles,
   Lock,
   Phone,
-  Building2,
-  MapPin,
-  HelpCircle,
   KeyRound,
   X,
+  UserCheck,
 } from 'lucide-react';
 
 export const AuthScreen: React.FC = () => {
@@ -206,173 +200,209 @@ export const AuthScreen: React.FC = () => {
   };
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] w-full bg-[#FAF8F5] flex flex-col justify-center">
-      {/* Main Two-Column Hero Container */}
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-10 flex-1 flex items-center">
+    <div className="min-h-screen w-full relative flex flex-col justify-between overflow-x-hidden bg-[#153B32]">
+      {/* 1. FULL VIEWPORT AGRICULTURAL BACKGROUND VISUAL */}
+      <div
+        className="fixed inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 scale-100"
+        style={{
+          backgroundImage: `url('/assets/indian_farm_hero.jpg')`,
+        }}
+        aria-hidden="true"
+      />
+      {/* Soft Dark / Forest Gradient Overlay with subtle cream/green tint */}
+      <div
+        className="fixed inset-0 bg-gradient-to-br from-[#0D261F]/92 via-[#153B32]/82 to-[#24312C]/75 backdrop-blur-[0.5px]"
+        aria-hidden="true"
+      />
+
+      {/* 2. TOP ELEGANT HEADER */}
+      <header className="relative z-20 w-full border-b border-white/10 bg-[#0D261F]/50 backdrop-blur-md">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+          {/* Brand Wordmark & Emblem */}
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-[#D6A844] flex items-center justify-center text-[#153B32] shadow-md transition-transform hover:scale-105">
+              <Sprout className="w-6 h-6" />
+            </div>
+            <div>
+              <span className="text-xl sm:text-2xl font-black tracking-tight text-white font-serif block leading-none">
+                {t.common.appName}
+              </span>
+              <span className="text-[10px] sm:text-xs font-semibold text-[#D6A844] tracking-wide block mt-0.5">
+                {language === 'mr'
+                  ? 'महाराष्ट्र कृषी बाजार व थेट व्यवहार मंच'
+                  : language === 'hi'
+                  ? 'महाराष्ट्र कृषि बाज़ार एवं प्रत्यक्ष व्यापार मंच'
+                  : 'Agricultural Market Linkage Platform'}
+              </span>
+            </div>
+          </div>
+
+          {/* Right Controls: Language Selector + Quick Mode Toggles */}
+          <div className="flex items-center gap-2 sm:gap-4">
+            {/* Language Selector */}
+            <div className="inline-flex p-1 bg-black/30 rounded-xl border border-white/15 backdrop-blur-md">
+              {(['mr', 'hi', 'en'] as SupportedLanguage[]).map((lang) => (
+                <button
+                  key={`lang-opt-${lang}`}
+                  type="button"
+                  onClick={() => setLanguage(lang)}
+                  className={`px-2.5 sm:px-3 py-1 rounded-lg text-xs font-bold transition-all ${
+                    language === lang
+                      ? 'bg-[#D6A844] text-[#153B32] shadow-sm'
+                      : 'text-stone-200 hover:text-white hover:bg-white/10'
+                  }`}
+                >
+                  {lang === 'mr' ? 'मराठी' : lang === 'hi' ? 'हिंदी' : 'English'}
+                </button>
+              ))}
+            </div>
+
+            {/* Quick Header Sign In / Get Started Switcher */}
+            <div className="hidden sm:flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setMode('LOGIN');
+                  setError(null);
+                }}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                  mode === 'LOGIN'
+                    ? 'bg-white text-[#153B32] shadow-sm'
+                    : 'text-stone-200 hover:text-white hover:bg-white/10 border border-white/20'
+                }`}
+              >
+                {t.auth.loginButton}
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setMode('SIGNUP');
+                  setError(null);
+                }}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                  mode === 'SIGNUP'
+                    ? 'bg-[#D6A844] text-[#153B32] shadow-sm font-extrabold'
+                    : 'bg-[#D6A844]/90 hover:bg-[#D6A844] text-[#153B32]'
+                }`}
+              >
+                {t.auth.signupButton}
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* 3. MAIN HERO & AUTHENTICATION COMPOSITION */}
+      <main className="relative z-10 flex-1 flex items-center justify-center py-6 sm:py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
         <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           
-          {/* LEFT COLUMN: Agricultural Brand Hero Showcase (55% on desktop) */}
-          <div className="lg:col-span-7 flex flex-col justify-between h-full">
-            <div className="relative rounded-3xl overflow-hidden shadow-xl border border-stone-200/80 bg-stone-900 min-h-[380px] lg:min-h-[560px] flex flex-col justify-between p-6 sm:p-10 text-white">
-              {/* Agricultural Background Photo */}
-              <div
-                className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 scale-105"
-                style={{
-                  backgroundImage: `url('/assets/indian_farm_hero.jpg')`,
-                }}
-              />
-              {/* Warm Dark Forest Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-[#0F2821]/95 via-[#173D32]/85 to-[#24312C]/60 backdrop-blur-[0.5px]" />
+          {/* LEFT COLUMN: Clean Welcoming Statement & Agricultural Value */}
+          <div className="lg:col-span-7 flex flex-col justify-center text-white space-y-5 sm:space-y-6">
+            
+            {/* Trust Signature */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-stone-200 text-xs backdrop-blur-md w-fit">
+              <ShieldCheck className="w-4 h-4 text-[#D6A844]" />
+              <span className="font-semibold tracking-wide">
+                {language === 'mr'
+                  ? 'पारदर्शक कृषी व्यापार मंच'
+                  : language === 'hi'
+                  ? 'पारदर्शी कृषि व्यापार मंच'
+                  : 'Transparent Agricultural Market Linkage'}
+              </span>
+            </div>
 
-              {/* Top Hero Brand Header */}
-              <div className="relative z-10">
-                <div className="flex items-center gap-3">
-                  <div className="w-11 h-11 rounded-2xl bg-[#D6A844] flex items-center justify-center text-[#173D32] shadow-md">
-                    <Sprout className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white font-serif">
-                      {t.common.appName}
-                    </h1>
-                    <span className="text-xs sm:text-sm font-semibold text-[#D6A844] tracking-wide block mt-0.5">
-                      {language === 'mr'
-                        ? 'महाराष्ट्र कृषी बाजार व थेट व्यवहार मंच'
-                        : language === 'hi'
-                        ? 'महाराष्ट्र कृषि बाज़ार एवं प्रत्यक्ष व्यापार मंच'
-                        : 'Digital Agricultural Market Linkage Platform'}
-                    </span>
-                  </div>
-                </div>
-              </div>
+            {/* Main Welcoming Headline */}
+            <div className="space-y-2">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-black tracking-tight leading-[1.15] font-serif text-[#F6F1E5]">
+                {language === 'mr' ? (
+                  <>
+                    बाजारभाव जाणून घ्या.<br />
+                    तुमची कमाई समजून घ्या.<br />
+                    <span className="text-[#D6A844]">आत्मविश्वासाने विक्री करा.</span>
+                  </>
+                ) : language === 'hi' ? (
+                  <>
+                    बाज़ार भाव जानें।<br />
+                    अपनी कमाई समझें।<br />
+                    <span className="text-[#D6A844]">आत्मविश्वास के साथ बेचें।</span>
+                  </>
+                ) : (
+                  <>
+                    Know your market.<br />
+                    Understand your earnings.<br />
+                    <span className="text-[#D6A844]">Sell with confidence.</span>
+                  </>
+                )}
+              </h1>
+            </div>
 
-              {/* Center Hero Tagline & Core Pillars */}
-              <div className="relative z-10 my-6 sm:my-8 max-w-xl">
-                <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[#F6F1E5] leading-snug">
-                  {t.common.appTagline}
-                </h2>
-                <p className="mt-3 text-xs sm:text-sm text-stone-200/90 leading-relaxed font-normal">
+            {/* Welcoming Description */}
+            <p className="text-sm sm:text-base text-stone-200/90 max-w-xl leading-relaxed font-normal">
+              {language === 'mr'
+                ? 'महाराष्ट्रातील सर्व कृषी उत्पन्न बाजार समित्यांचे थेट दर, वाहतूक व हमाली वजा जाता मिळणारा खरा निव्वळ नफा, आणि थेट पडताळणीकृत खरेदीदारांशी पारदर्शक व्यापार.'
+                : language === 'hi'
+                ? 'महाराष्ट्र की सभी कृषि उपज मंडियों के लाइव भाव, भाड़ा व मंडी खर्च काटकर हाथ में मिलने वाली शुद्ध आय, और सत्यापित खरीदारों के साथ सीधा पारदर्शी व्यापार।'
+                : 'Real-time APMC price discovery across Maharashtra, transparent net realization after freight & deductions, and direct linkage with verified buyers.'}
+            </p>
+
+            {/* Quick Action Badges */}
+            <div className="pt-2 flex flex-wrap items-center gap-3 text-xs text-stone-300">
+              <div className="flex items-center gap-2 bg-white/10 border border-white/10 px-3 py-1.5 rounded-xl backdrop-blur-xs">
+                <UserCheck className="w-4 h-4 text-[#D6A844]" />
+                <span>
                   {language === 'mr'
-                    ? 'महाराष्ट्रातील सर्व कृषी उत्पन्न बाजार समित्यांचे थेट दर, वाहतूक व हमाली वजा जाता मिळणारा खरा निव्वळ नफा, आणि थेट संस्थात्मक खरेदीदारांशी पारदर्शक व्यापार.'
+                    ? 'शेतकरी आणि संस्थात्मक खरेदीदार'
                     : language === 'hi'
-                    ? 'महाराष्ट्र की सभी कृषि उपज मंडियों के लाइव भाव, भाड़ा व मंडी खर्च काटकर हाथ में मिलने वाली शुद्ध आय, और संस्थागत खरीदारों से सीधी बिक्री।'
-                    : 'Real-time APMC price discovery across Maharashtra, transparent net realization after freight & deductions, and direct linkage with verified buyers.'}
-                </p>
-
-                {/* 3 Key Trust Pillars */}
-                <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  <div className="bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/15">
-                    <TrendingUp className="w-5 h-5 text-[#D6A844] mb-1.5" />
-                    <div className="text-xs font-bold text-white">
-                      {language === 'mr' ? 'थेट बाजारभाव' : language === 'hi' ? 'लाइव मंडी भाव' : 'Live Mandi Rates'}
-                    </div>
-                    <div className="text-[11px] text-stone-300">
-                      {language === 'mr' ? '३६ जिल्ह्यांचे भाव' : language === 'hi' ? '36 जिलों के भाव' : '36 Districts APMC'}
-                    </div>
-                  </div>
-
-                  <div className="bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/15">
-                    <Scale className="w-5 h-5 text-[#D6A844] mb-1.5" />
-                    <div className="text-xs font-bold text-white">
-                      {language === 'mr' ? 'निव्वळ नफा अंदाज' : language === 'hi' ? 'शुद्ध आय गणना' : 'Net Realisation'}
-                    </div>
-                    <div className="text-[11px] text-stone-300">
-                      {language === 'mr' ? 'हातात येणारा खरा दर' : language === 'hi' ? 'हाथ में शुद्ध बचत' : 'True in-hand profit'}
-                    </div>
-                  </div>
-
-                  <div className="bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/15">
-                    <Handshake className="w-5 h-5 text-[#D6A844] mb-1.5" />
-                    <div className="text-xs font-bold text-white">
-                      {language === 'mr' ? 'थेट खरेदीदार' : language === 'hi' ? 'सीधे खरीदार' : 'Direct Buyers'}
-                    </div>
-                    <div className="text-[11px] text-stone-300">
-                      {language === 'mr' ? 'स्पर्धात्मक थेट बोली' : language === 'hi' ? 'पारदर्शी बोलियां' : 'Institutional bids'}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Bottom Trust Badge */}
-              <div className="relative z-10 pt-4 border-t border-white/15 flex items-center justify-between text-[11px] text-stone-300">
-                <div className="flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span>
-                    {language === 'mr'
-                      ? 'प्रमाणित शेतकरी व खरेदीदार नेटवर्क'
-                      : language === 'hi'
-                      ? 'सत्यापित किसान और खरीदार नेटवर्क'
-                      : 'Verified Farmer & Institutional Buyer Network'}
-                  </span>
-                </div>
-                <span className="hidden sm:inline-block font-semibold text-[#D6A844]">
-                  Maharashtra State
+                    ? 'किसान और संस्थागत खरीदार'
+                    : 'Farmers & Verified Institutional Buyers'}
                 </span>
+              </div>
+              <div className="flex items-center gap-2 bg-white/10 border border-white/10 px-3 py-1.5 rounded-xl backdrop-blur-xs">
+                <Sprout className="w-4 h-4 text-[#D6A844]" />
+                <span>Maharashtra State Mandis</span>
               </div>
             </div>
           </div>
 
-          {/* RIGHT COLUMN: Authentication Panel (45% on desktop) */}
+          {/* RIGHT COLUMN: Polished Authentication / Entry Card */}
           <div className="lg:col-span-5 w-full">
-            <div className="bg-white rounded-3xl shadow-xl border border-stone-200/90 overflow-hidden flex flex-col">
+            <div className="bg-[#FDFBF7] text-stone-900 rounded-3xl shadow-2xl border border-stone-200/90 overflow-hidden flex flex-col">
               
-              {/* Language Selector Top Bar */}
-              <div className="px-6 pt-5 pb-3 border-b border-stone-100 flex items-center justify-between bg-[#FDFCF9]">
-                <span className="text-xs font-bold text-stone-700 flex items-center gap-1.5">
-                  <Languages className="w-3.5 h-3.5 text-[#173D32]" />
-                  <span>{t.nav.changeLang}:</span>
-                </span>
-                
-                <div className="inline-flex p-1 bg-stone-100 rounded-xl border border-stone-200/80">
-                  {(['mr', 'hi', 'en'] as SupportedLanguage[]).map((lang) => (
-                    <button
-                      key={lang}
-                      type="button"
-                      onClick={() => setLanguage(lang)}
-                      className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${
-                        language === lang
-                          ? 'bg-[#173D32] text-white shadow-xs'
-                          : 'text-stone-700 hover:text-stone-950 hover:bg-stone-200/60'
-                      }`}
-                    >
-                      {lang === 'mr' ? 'मराठी' : lang === 'hi' ? 'हिंदी' : 'English'}
-                    </button>
-                  ))}
-                </div>
+              {/* Header Mode Switcher (Sign In vs Get Started) */}
+              <div className="grid grid-cols-2 p-1.5 bg-stone-100/90 border-b border-stone-200/80">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMode('LOGIN');
+                    setError(null);
+                  }}
+                  className={`py-2.5 text-xs sm:text-sm font-extrabold rounded-2xl transition-all ${
+                    mode === 'LOGIN'
+                      ? 'bg-white text-[#153B32] shadow-sm'
+                      : 'text-stone-600 hover:text-stone-900'
+                  }`}
+                >
+                  {t.auth.loginButton}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMode('SIGNUP');
+                    setError(null);
+                  }}
+                  className={`py-2.5 text-xs sm:text-sm font-extrabold rounded-2xl transition-all ${
+                    mode === 'SIGNUP'
+                      ? 'bg-white text-[#153B32] shadow-sm'
+                      : 'text-stone-600 hover:text-stone-900'
+                  }`}
+                >
+                  {t.auth.signupButton}
+                </button>
               </div>
 
+              {/* Form Content Area */}
               <div className="p-6 sm:p-8">
-                {/* Sign In vs Create Account Tabs */}
-                <div className="grid grid-cols-2 p-1 bg-stone-100 rounded-2xl mb-6 border border-stone-200/60">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setMode('LOGIN');
-                      setError(null);
-                    }}
-                    className={`py-2.5 text-xs sm:text-sm font-extrabold rounded-xl transition-all ${
-                      mode === 'LOGIN'
-                        ? 'bg-white text-[#173D32] shadow-sm'
-                        : 'text-stone-600 hover:text-stone-900'
-                    }`}
-                  >
-                    {t.auth.loginButton}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setMode('SIGNUP');
-                      setError(null);
-                    }}
-                    className={`py-2.5 text-xs sm:text-sm font-extrabold rounded-xl transition-all ${
-                      mode === 'SIGNUP'
-                        ? 'bg-white text-[#173D32] shadow-sm'
-                        : 'text-stone-600 hover:text-stone-900'
-                    }`}
-                  >
-                    {t.auth.signupButton}
-                  </button>
-                </div>
-
+                
                 {/* Error Banner */}
                 {error && (
                   <div className="mb-5 p-3.5 bg-rose-50 border border-rose-200 text-rose-800 text-xs rounded-xl flex items-center gap-2.5 animate-fadeIn">
@@ -381,7 +411,7 @@ export const AuthScreen: React.FC = () => {
                   </div>
                 )}
 
-                {/* 1. LOGIN FORM */}
+                {/* 1. SIGN IN FORM */}
                 {mode === 'LOGIN' && (
                   <form onSubmit={handleLoginSubmit} className="space-y-4">
                     <div>
@@ -399,7 +429,7 @@ export const AuthScreen: React.FC = () => {
                           value={loginMobile}
                           onChange={(e) => setLoginMobile(e.target.value.replace(/\D/g, ''))}
                           placeholder={t.auth.mobilePlaceholder}
-                          className="w-full pl-10 pr-3.5 py-2.5 bg-stone-50 border border-stone-300 rounded-xl text-sm text-stone-900 focus:bg-white focus:ring-2 focus:ring-[#173D32] focus:border-transparent tabular-nums transition-all"
+                          className="w-full pl-10 pr-3.5 py-2.5 bg-stone-50 border border-stone-300 rounded-xl text-sm text-stone-900 focus:bg-white focus:ring-2 focus:ring-[#153B32] focus:border-transparent tabular-nums transition-all"
                         />
                       </div>
                     </div>
@@ -416,7 +446,7 @@ export const AuthScreen: React.FC = () => {
                             setForgotMobile(loginMobile);
                             setForgotPasswordSubmitted(false);
                           }}
-                          className="text-xs font-semibold text-[#173D32] hover:underline"
+                          className="text-xs font-semibold text-[#153B32] hover:underline"
                         >
                           {language === 'mr'
                             ? 'पासवर्ड विसरलात?'
@@ -435,7 +465,7 @@ export const AuthScreen: React.FC = () => {
                           value={loginPassword}
                           onChange={(e) => setLoginPassword(e.target.value)}
                           placeholder={t.auth.passwordPlaceholder}
-                          className="w-full pl-10 pr-3.5 py-2.5 bg-stone-50 border border-stone-300 rounded-xl text-sm text-stone-900 focus:bg-white focus:ring-2 focus:ring-[#173D32] focus:border-transparent transition-all"
+                          className="w-full pl-10 pr-3.5 py-2.5 bg-stone-50 border border-stone-300 rounded-xl text-sm text-stone-900 focus:bg-white focus:ring-2 focus:ring-[#153B32] focus:border-transparent transition-all"
                         />
                       </div>
                     </div>
@@ -443,7 +473,7 @@ export const AuthScreen: React.FC = () => {
                     <button
                       type="submit"
                       disabled={loading}
-                      className="w-full mt-2 py-3 px-4 bg-[#173D32] hover:bg-[#0F2821] active:scale-[0.99] text-white font-extrabold text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                      className="w-full mt-2 py-3 px-4 bg-[#153B32] hover:bg-[#0D261F] active:scale-[0.99] text-white font-extrabold text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                     >
                       {loading ? t.common.loading : t.auth.loginButton}
                       <ArrowRight className="w-4 h-4" />
@@ -451,10 +481,10 @@ export const AuthScreen: React.FC = () => {
                   </form>
                 )}
 
-                {/* 2. SIGNUP FORM */}
+                {/* 2. SIGN UP / GET STARTED FORM */}
                 {mode === 'SIGNUP' && (
                   <div className="space-y-4">
-                    {/* Role Selection */}
+                    {/* Role Selection (Farmer vs Buyer) */}
                     <div>
                       <label className="block text-xs font-bold text-stone-700 mb-2">
                         {t.auth.selectRole}
@@ -463,23 +493,23 @@ export const AuthScreen: React.FC = () => {
                         <button
                           type="button"
                           onClick={() => setSignupRole('FARMER')}
-                          className={`p-3 rounded-xl border text-left transition-all flex items-center gap-2.5 ${
+                          className={`p-3 rounded-2xl border text-left transition-all flex items-center gap-2.5 ${
                             signupRole === 'FARMER'
-                              ? 'border-[#173D32] bg-[#EBF1E8] text-[#173D32] font-bold ring-1 ring-[#173D32]'
+                              ? 'border-[#153B32] bg-[#EBF1E8] text-[#153B32] font-bold ring-1 ring-[#153B32]'
                               : 'border-stone-200 bg-white text-stone-700 hover:bg-stone-50'
                           }`}
                         >
-                          <Sprout className="w-5 h-5 text-[#173D32] shrink-0" />
+                          <Sprout className="w-5 h-5 text-[#153B32] shrink-0" />
                           <div>
                             <div className="text-xs font-bold">
                               {language === 'mr' ? 'शेतकरी' : language === 'hi' ? 'किसान' : 'Farmer'}
                             </div>
                             <div className="text-[10px] text-stone-600">
                               {language === 'mr'
-                                ? 'माझ्या शेतीमालाचे व्यवस्थापन करा'
+                                ? 'माझ्या शेतीमालाचे व्यवस्थापन'
                                 : language === 'hi'
-                                ? 'अपनी उपज का प्रबंधन करें'
-                                : 'Manage my produce'}
+                                ? 'अपनी उपज का प्रबंधन'
+                                : 'Manage produce'}
                             </div>
                           </div>
                         </button>
@@ -487,40 +517,40 @@ export const AuthScreen: React.FC = () => {
                         <button
                           type="button"
                           onClick={() => setSignupRole('BUYER')}
-                          className={`p-3 rounded-xl border text-left transition-all flex items-center gap-2.5 ${
+                          className={`p-3 rounded-2xl border text-left transition-all flex items-center gap-2.5 ${
                             signupRole === 'BUYER'
-                              ? 'border-[#173D32] bg-[#EBF1E8] text-[#173D32] font-bold ring-1 ring-[#173D32]'
+                              ? 'border-[#153B32] bg-[#EBF1E8] text-[#153B32] font-bold ring-1 ring-[#153B32]'
                               : 'border-stone-200 bg-white text-stone-700 hover:bg-stone-50'
                           }`}
                         >
-                          <Handshake className="w-5 h-5 text-[#173D32] shrink-0" />
+                          <Handshake className="w-5 h-5 text-[#153B32] shrink-0" />
                           <div>
                             <div className="text-xs font-bold">
                               {language === 'mr' ? 'खरेदीदार' : language === 'hi' ? 'खरीदार' : 'Buyer'}
                             </div>
                             <div className="text-[10px] text-stone-600">
                               {language === 'mr'
-                                ? 'कृषी मालाची खरेदी करा'
+                                ? 'कृषी मालाची खरेदी'
                                 : language === 'hi'
                                 ? 'कृषि उपज खोजें'
-                                : 'Find agricultural produce'}
+                                : 'Procure produce'}
                             </div>
                           </div>
                         </button>
                       </div>
                     </div>
 
-                    {/* FARMER SIGNUP */}
+                    {/* FARMER REGISTRATION */}
                     {signupRole === 'FARMER' && (
                       <form onSubmit={handleFarmerSignupSubmit} className="space-y-3">
                         {/* Voice Assistant Auto-fill Banner */}
                         <div className="p-3 bg-gradient-to-r from-emerald-50 to-amber-50 border border-emerald-300/80 rounded-2xl flex items-center justify-between gap-3 shadow-2xs">
                           <div className="flex items-center gap-2.5">
-                            <div className="w-8 h-8 rounded-full bg-[#173D32] text-white flex items-center justify-center shrink-0">
+                            <div className="w-8 h-8 rounded-full bg-[#153B32] text-white flex items-center justify-center shrink-0">
                               <Mic className="w-4 h-4 text-[#D6A844] animate-pulse" />
                             </div>
                             <div>
-                              <div className="text-xs font-bold text-[#0F2821]">
+                              <div className="text-xs font-bold text-[#0D261F]">
                                 {t.voice.speakFarmDetails}
                               </div>
                               <div className="text-[10px] text-stone-600">
@@ -535,7 +565,7 @@ export const AuthScreen: React.FC = () => {
                           <button
                             type="button"
                             onClick={() => setShowVoiceModal(true)}
-                            className="shrink-0 px-3 py-1.5 bg-[#173D32] hover:bg-[#0F2821] active:scale-95 text-white font-bold text-xs rounded-xl shadow-xs flex items-center gap-1.5 transition-all"
+                            className="shrink-0 px-3 py-1.5 bg-[#153B32] hover:bg-[#0D261F] active:scale-95 text-white font-bold text-xs rounded-xl shadow-xs flex items-center gap-1.5 transition-all"
                           >
                             <Mic className="w-3.5 h-3.5 text-[#D6A844]" />
                             <span>{t.voice.tapToSpeak}</span>
@@ -552,7 +582,7 @@ export const AuthScreen: React.FC = () => {
                             value={farmerData.fullName}
                             onChange={(e) => setFarmerData({ ...farmerData, fullName: e.target.value })}
                             placeholder={t.farmerSignup.fullNamePlaceholder}
-                            className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl text-xs text-stone-900 focus:bg-white"
+                            className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl text-xs text-stone-900 focus:bg-white focus:ring-2 focus:ring-[#153B32]"
                           />
                         </div>
 
@@ -570,7 +600,7 @@ export const AuthScreen: React.FC = () => {
                                 setFarmerData({ ...farmerData, mobile: e.target.value.replace(/\D/g, '') })
                               }
                               placeholder={t.auth.mobilePlaceholder}
-                              className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl text-xs text-stone-900 tabular-nums focus:bg-white"
+                              className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl text-xs text-stone-900 tabular-nums focus:bg-white focus:ring-2 focus:ring-[#153B32]"
                             />
                           </div>
                           <div>
@@ -582,7 +612,7 @@ export const AuthScreen: React.FC = () => {
                               value={farmerData.email}
                               onChange={(e) => setFarmerData({ ...farmerData, email: e.target.value })}
                               placeholder="name@email.com"
-                              className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl text-xs text-stone-900 focus:bg-white"
+                              className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl text-xs text-stone-900 focus:bg-white focus:ring-2 focus:ring-[#153B32]"
                             />
                           </div>
                         </div>
@@ -598,7 +628,7 @@ export const AuthScreen: React.FC = () => {
                               value={farmerData.password}
                               onChange={(e) => setFarmerData({ ...farmerData, password: e.target.value })}
                               placeholder={t.auth.passwordPlaceholder}
-                              className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl text-xs text-stone-900 focus:bg-white"
+                              className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl text-xs text-stone-900 focus:bg-white focus:ring-2 focus:ring-[#153B32]"
                             />
                           </div>
                           <div>
@@ -613,12 +643,12 @@ export const AuthScreen: React.FC = () => {
                                 setFarmerData({ ...farmerData, confirmPassword: e.target.value })
                               }
                               placeholder={t.auth.confirmPassword}
-                              className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl text-xs text-stone-900 focus:bg-white"
+                              className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl text-xs text-stone-900 focus:bg-white focus:ring-2 focus:ring-[#153B32]"
                             />
                           </div>
                         </div>
 
-                        {/* Dynamic Location Selector */}
+                        {/* Location Selector */}
                         <div>
                           <label className="block text-xs font-bold text-stone-700 mb-1.5">
                             {t.farmerSignup.state} / {t.farmerSignup.district} / {t.farmerSignup.village} *
@@ -653,7 +683,7 @@ export const AuthScreen: React.FC = () => {
                               value={farmerData.landArea}
                               onChange={(e) => setFarmerData({ ...farmerData, landArea: e.target.value })}
                               placeholder="e.g. 3 Acres"
-                              className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl text-xs text-stone-900 focus:bg-white"
+                              className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl text-xs text-stone-900 focus:bg-white focus:ring-2 focus:ring-[#153B32]"
                             />
                           </div>
                           <div>
@@ -667,7 +697,7 @@ export const AuthScreen: React.FC = () => {
                                 setFarmerData({ ...farmerData, primaryCrop: e.target.value })
                               }
                               placeholder="e.g. Onion, Tomato"
-                              className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl text-xs text-stone-900 focus:bg-white"
+                              className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl text-xs text-stone-900 focus:bg-white focus:ring-2 focus:ring-[#153B32]"
                             />
                           </div>
                         </div>
@@ -675,7 +705,7 @@ export const AuthScreen: React.FC = () => {
                         <button
                           type="submit"
                           disabled={loading}
-                          className="w-full mt-3 py-3 px-4 bg-[#173D32] hover:bg-[#0F2821] text-white font-extrabold text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                          className="w-full mt-3 py-3 px-4 bg-[#153B32] hover:bg-[#0D261F] text-white font-extrabold text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                         >
                           {loading ? t.common.saving : t.auth.signupButton}
                           <CheckCircle2 className="w-4 h-4" />
@@ -683,7 +713,7 @@ export const AuthScreen: React.FC = () => {
                       </form>
                     )}
 
-                    {/* BUYER SIGNUP */}
+                    {/* BUYER REGISTRATION */}
                     {signupRole === 'BUYER' && (
                       <form onSubmit={handleBuyerSignupSubmit} className="space-y-3">
                         <div>
@@ -696,7 +726,7 @@ export const AuthScreen: React.FC = () => {
                             value={buyerData.businessName}
                             onChange={(e) => setBuyerData({ ...buyerData, businessName: e.target.value })}
                             placeholder={t.buyerSignup.businessNamePlaceholder}
-                            className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl text-xs text-stone-900 focus:bg-white"
+                            className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl text-xs text-stone-900 focus:bg-white focus:ring-2 focus:ring-[#153B32]"
                           />
                         </div>
 
@@ -713,7 +743,7 @@ export const AuthScreen: React.FC = () => {
                                 setBuyerData({ ...buyerData, contactPerson: e.target.value })
                               }
                               placeholder={t.buyerSignup.contactPersonPlaceholder}
-                              className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl text-xs text-stone-900 focus:bg-white"
+                              className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl text-xs text-stone-900 focus:bg-white focus:ring-2 focus:ring-[#153B32]"
                             />
                           </div>
                           <div>
@@ -723,7 +753,7 @@ export const AuthScreen: React.FC = () => {
                             <select
                               value={buyerData.buyerType}
                               onChange={(e) => setBuyerData({ ...buyerData, buyerType: e.target.value })}
-                              className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl text-xs text-stone-900 focus:bg-white"
+                              className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl text-xs text-stone-900 focus:bg-white focus:ring-2 focus:ring-[#153B32]"
                             >
                               <option value="Processor">{t.buyerSignup.buyerTypeProcessor}</option>
                               <option value="Wholesaler">{t.buyerSignup.buyerTypeWholesaler}</option>
@@ -749,7 +779,7 @@ export const AuthScreen: React.FC = () => {
                                 setBuyerData({ ...buyerData, mobile: e.target.value.replace(/\D/g, '') })
                               }
                               placeholder={t.auth.mobilePlaceholder}
-                              className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl text-xs text-stone-900 tabular-nums focus:bg-white"
+                              className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl text-xs text-stone-900 tabular-nums focus:bg-white focus:ring-2 focus:ring-[#153B32]"
                             />
                           </div>
                           <div>
@@ -761,7 +791,7 @@ export const AuthScreen: React.FC = () => {
                               value={buyerData.email}
                               onChange={(e) => setBuyerData({ ...buyerData, email: e.target.value })}
                               placeholder="procurement@company.com"
-                              className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl text-xs text-stone-900 focus:bg-white"
+                              className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl text-xs text-stone-900 focus:bg-white focus:ring-2 focus:ring-[#153B32]"
                             />
                           </div>
                         </div>
@@ -777,7 +807,7 @@ export const AuthScreen: React.FC = () => {
                               value={buyerData.password}
                               onChange={(e) => setBuyerData({ ...buyerData, password: e.target.value })}
                               placeholder={t.auth.passwordPlaceholder}
-                              className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl text-xs text-stone-900 focus:bg-white"
+                              className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl text-xs text-stone-900 focus:bg-white focus:ring-2 focus:ring-[#153B32]"
                             />
                           </div>
                           <div>
@@ -792,7 +822,7 @@ export const AuthScreen: React.FC = () => {
                                 setBuyerData({ ...buyerData, confirmPassword: e.target.value })
                               }
                               placeholder={t.auth.confirmPassword}
-                              className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl text-xs text-stone-900 focus:bg-white"
+                              className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl text-xs text-stone-900 focus:bg-white focus:ring-2 focus:ring-[#153B32]"
                             />
                           </div>
                         </div>
@@ -821,7 +851,7 @@ export const AuthScreen: React.FC = () => {
                         <button
                           type="submit"
                           disabled={loading}
-                          className="w-full mt-3 py-3 px-4 bg-[#173D32] hover:bg-[#0F2821] text-white font-extrabold text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                          className="w-full mt-3 py-3 px-4 bg-[#153B32] hover:bg-[#0D261F] text-white font-extrabold text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                         >
                           {loading ? t.common.saving : t.auth.signupButton}
                           <CheckCircle2 className="w-4 h-4" />
@@ -834,7 +864,12 @@ export const AuthScreen: React.FC = () => {
             </div>
           </div>
         </div>
-      </div>
+      </main>
+
+      {/* 4. FOOTER NOTE */}
+      <footer className="relative z-10 py-3 text-center text-xs text-stone-300/80 border-t border-white/10 bg-[#0D261F]/40 backdrop-blur-xs">
+        <p>© 2026 {t.common.appName}. {language === 'mr' ? 'शेतकरी व खरेदीदारांसाठी पारदर्शक कृषी व्यापार.' : language === 'hi' ? 'किसानों और खरीदारों के लिए पारदर्शी कृषि व्यापार।' : 'Empowering Agricultural Communities with Transparent Price Discovery.'}</p>
+      </footer>
 
       {/* Voice Assistant Modal */}
       {showVoiceModal && (
@@ -850,7 +885,7 @@ export const AuthScreen: React.FC = () => {
         <div className="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-xs flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl max-w-md w-full shadow-2xl border border-stone-200 overflow-hidden p-6 sm:p-8 animate-fadeIn">
             <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2 text-[#173D32]">
+              <div className="flex items-center gap-2 text-[#153B32]">
                 <KeyRound className="w-5 h-5" />
                 <h3 className="font-extrabold text-base">
                   {language === 'mr'
@@ -882,7 +917,7 @@ export const AuthScreen: React.FC = () => {
                 </p>
                 <button
                   onClick={() => setShowForgotPasswordModal(false)}
-                  className="w-full py-2.5 bg-[#173D32] text-white font-bold text-xs rounded-xl"
+                  className="w-full py-2.5 bg-[#153B32] text-white font-bold text-xs rounded-xl"
                 >
                   {t.common.close}
                 </button>
@@ -921,7 +956,7 @@ export const AuthScreen: React.FC = () => {
                   </button>
                   <button
                     type="submit"
-                    className="flex-1 py-2.5 bg-[#173D32] hover:bg-[#0F2821] text-white text-xs font-bold rounded-xl"
+                    className="flex-1 py-2.5 bg-[#153B32] hover:bg-[#0D261F] text-white text-xs font-bold rounded-xl"
                   >
                     {language === 'mr' ? 'ओटीपी पाठवा' : language === 'hi' ? 'ओटीपी भेजें' : 'Send OTP'}
                   </button>

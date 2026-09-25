@@ -245,7 +245,7 @@ export const Module3FPOAggregation: React.FC<Module3Props> = ({ onAnalyzeLotInNe
 
             return (
               <div
-                key={lot.id}
+                key={lot.id ? `fpo-lot-${lot.id}` : `fpo-lot-${lot.name}`}
                 className="bg-white border border-stone-200 rounded-xl p-5 shadow-2xs hover:border-emerald-500 transition-colors flex flex-col justify-between space-y-4"
               >
                 <div>
@@ -528,7 +528,7 @@ export const Module3FPOAggregation: React.FC<Module3Props> = ({ onAnalyzeLotInNe
                 <div className="py-8 text-center text-stone-500">No farmers have contributed yet.</div>
               ) : (
                 lotMembers.map((m) => (
-                  <div key={m.id} className="py-3 flex items-center justify-between">
+                  <div key={m.id ? `fpo-member-${m.id}` : `fpo-member-${m.farmer_id}-${m.quantity_qtl}`} className="py-3 flex items-center justify-between">
                     <div>
                       <div className="font-bold text-stone-900">{m.farmer_name}</div>
                       <div className="text-[11px] text-stone-700">

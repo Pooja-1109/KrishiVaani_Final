@@ -181,7 +181,7 @@ export const ExplainableRecommendationCard: React.FC<Props> = ({
 
             return (
               <div
-                key={idx}
+                key={`rec-factor-${factor.nameEn || idx}-${idx}`}
                 className={`p-3 rounded-lg border text-xs ${
                   isPos
                     ? 'bg-emerald-50/50 border-emerald-200'
@@ -245,7 +245,7 @@ export const ExplainableRecommendationCard: React.FC<Props> = ({
 
               return (
                 <div
-                  key={idx}
+                  key={`calc-step-${step.labelEn || idx}-${idx}`}
                   className={`flex items-center justify-between px-3 py-2 text-xs ${
                     isLast ? 'bg-emerald-50/60 font-bold text-emerald-950' : 'text-stone-700'
                   }`}
@@ -284,7 +284,7 @@ export const ExplainableRecommendationCard: React.FC<Props> = ({
                 language === 'mr' ? alt.expectedOutcomeMr : language === 'hi' ? alt.expectedOutcomeHi : alt.expectedOutcomeEn;
 
               return (
-                <div key={idx} className="p-3 bg-purple-50/40 border border-purple-200 rounded-lg text-xs">
+                <div key={`alt-opt-${alt.titleEn || idx}-${idx}`} className="p-3 bg-purple-50/40 border border-purple-200 rounded-lg text-xs">
                   <h6 className="font-semibold text-purple-900 mb-1">{altTitle}</h6>
                   <p className="text-purple-800 leading-relaxed">{altOutcome}</p>
                 </div>
@@ -312,7 +312,7 @@ export const ExplainableRecommendationCard: React.FC<Props> = ({
           {showAssumptions && (
             <ul className="mt-2 space-y-1 text-xs text-stone-600 list-disc list-inside bg-white p-3 rounded border border-stone-200">
               {assumptionsList.map((a, i) => (
-                <li key={i}>{a}</li>
+                <li key={`assumption-${i}-${a.slice(0, 15)}`}>{a}</li>
               ))}
             </ul>
           )}

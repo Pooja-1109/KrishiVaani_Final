@@ -130,7 +130,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 const isActive = currentTab === item.id;
                 return (
                   <button
-                    key={item.id}
+                    key={`nav-top-${item.id}`}
                     onClick={() => onSelectTab(item.id)}
                     className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-colors whitespace-nowrap flex items-center gap-1.5 ${
                       isActive
@@ -154,7 +154,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                       const Icon = item.icon;
                       return (
                         <button
-                          key={item.id}
+                          key={`nav-more-${item.id}`}
                           onClick={() => onSelectTab(item.id)}
                           className="w-full text-left px-3 py-2 text-xs font-medium text-stone-700 hover:bg-emerald-50 hover:text-emerald-800 flex items-center gap-2"
                         >
@@ -268,7 +268,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             const isActive = currentTab === item.id;
             return (
               <button
-                key={item.id}
+                key={`nav-mobile-${item.id}`}
                 onClick={() => {
                   onSelectTab(item.id);
                   setMobileMenuOpen(false);

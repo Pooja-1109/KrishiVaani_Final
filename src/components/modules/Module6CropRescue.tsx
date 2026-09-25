@@ -200,7 +200,7 @@ export const Module6CropRescue: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {options.map((opt) => (
               <div
-                key={opt.id}
+                key={opt.id ? `rescue-opt-${opt.id}` : `rescue-opt-${opt.facility_name}`}
                 className="bg-white border border-stone-200 rounded-xl p-4 shadow-2xs space-y-3 hover:border-rose-400 transition-colors flex flex-col justify-between"
               >
                 <div>
@@ -286,7 +286,7 @@ export const Module6CropRescue: React.FC = () => {
               </thead>
               <tbody className="divide-y divide-stone-100">
                 {plans.map((p) => (
-                  <tr key={p.id} className="hover:bg-stone-50">
+                  <tr key={p.id ? `rescue-plan-${p.id}` : `rescue-plan-${p.produce_id}-${p.rescue_option_id}`} className="hover:bg-stone-50">
                     <td className="py-3 px-4 font-bold text-stone-900">{p.variety || 'Tomato'}</td>
                     <td className="py-3 px-4">
                       <div className="font-semibold text-stone-900">{p.facility_name}</div>

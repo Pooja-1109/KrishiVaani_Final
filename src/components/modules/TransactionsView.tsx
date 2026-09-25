@@ -294,7 +294,7 @@ export const TransactionsView: React.FC<TransactionsViewProps> = ({ onNavigate }
 
             return (
               <div
-                key={tx.id}
+                key={tx.id ? `tx-${tx.id}` : `tx-ref-${tx.transaction_ref}`}
                 className={`bg-white border rounded-xl p-4 sm:p-5 shadow-2xs space-y-4 transition-all ${
                   isCompleted ? 'border-emerald-200' : isCancelled ? 'border-rose-200 opacity-80' : 'border-stone-200'
                 }`}
