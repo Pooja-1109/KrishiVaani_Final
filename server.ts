@@ -1,5 +1,6 @@
 import express from 'express';
 import type { Request, Response, NextFunction } from 'express';
+import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import jwt from 'jsonwebtoken';
@@ -22,9 +23,59 @@ const __dirname = path.dirname(__filename);
 
 const JWT_SECRET = process.env.JWT_SECRET || 'krishivaani_super_secret_jwt_key_2026';
 const PORT = Number(process.env.PORT) || 3000;
+const FRONTEND_URL = process.env.FRONTEND_URL;
 
 const app = express();
+
+// CORS configuration
+const allowedOrigins: string[] = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'http://localhost:4173',
+  'http://127.0.0.1:5173',
+  'http://127.0.0.1:3000',
+];
+
+if (FRONTEND_URL) {
+  FRONTEND_URL.split(',').forEach((url) => {
+    const trimmed = url.trim().replace(/\/$/, '');
+    if (trimmed && !allowedOrigins.includes(trimmed)) {
+      allowedOrigins.push(trimmed);
+    }
+  });
+}
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (
+        allowedOrigins.includes(origin) ||
+        allowedOrigins.includes('*') ||
+        origin.endsWith('.vercel.app') ||
+        origin.endsWith('.onrender.com')
+      ) {
+        return callback(null, true);
+      }
+      return callback(null, true);
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'Origin', 'X-Requested-With'],
+  })
+);
+
 app.use(express.json());
+
+// Health Check Endpoint (Render & Monitoring)
+app.get(['/health', '/api/health'], (_req: Request, res: Response) => {
+  res.status(200).json({
+    status: 'ok',
+    service: 'krishivaani-backend',
+    uptime: process.uptime(),
+    timestamp: new Date().toISOString(),
+  });
+});
 
 // Auth Middleware
 export interface AuthUser {

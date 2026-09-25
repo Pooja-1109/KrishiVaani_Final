@@ -79,11 +79,8 @@ export const Module1MarketPrices: React.FC<Module1Props> = ({ onNavigateToNetCal
   const loadMLPipeline = async (cropId: number) => {
     setMlLoading(true);
     try {
-      const res = await fetch(`/api/price-prediction/${cropId}`);
-      if (res.ok) {
-        const data: MLPipelineResult = await res.json();
-        setMlResult(data);
-      }
+      const data: MLPipelineResult = await api.getPricePrediction(cropId);
+      setMlResult(data);
     } catch (e) {
       console.warn('Failed to load ML pipeline data:', e);
     } finally {

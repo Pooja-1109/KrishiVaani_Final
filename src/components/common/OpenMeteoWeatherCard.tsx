@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { WeatherData, SupportedLanguage } from '../../types';
+import { api } from '../../services/api';
 import {
   CloudRain,
   Sun,
@@ -42,17 +43,7 @@ export const OpenMeteoWeatherCard: React.FC<Props> = ({
     setLoading(true);
     setError(null);
     try {
-      const params = new URLSearchParams();
-      if (lat !== undefined && lon !== undefined) {
-        params.set('lat', lat.toString());
-        params.set('lon', lon.toString());
-      }
-      if (dist) {
-        params.set('district', dist);
-      }
-      const res = await fetch(`/api/weather?${params.toString()}`);
-      if (!res.ok) throw new Error('Weather fetch failed');
-      const data = await res.json();
+      const data = await api.getWeather(dist, lat, lon);
       setWeather(data);
     } catch (err: any) {
       setError(err.message || 'Failed to load weather');

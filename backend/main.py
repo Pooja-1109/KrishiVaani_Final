@@ -30,13 +30,33 @@ app = FastAPI(
     version="1.0.0"
 )
 
+# CORS configuration
+frontend_url_env = os.environ.get("FRONTEND_URL", "")
+allowed_origins = [
+    "http://localhost:5173",
+    "http://localhost:3000",
+    "http://localhost:4173",
+    "http://127.0.0.1:5173",
+    "http://127.0.0.1:3000",
+]
+if frontend_url_env:
+    for url in frontend_url_env.split(","):
+        cleaned = url.strip().rstrip("/")
+        if cleaned and cleaned not in allowed_origins:
+            allowed_origins.append(cleaned)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=allowed_origins if frontend_url_env else ["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.get("/health")
+@app.get("/api/health")
+def health_check():
+    return {"status": "ok", "service": "krishivaani-python-backend"}
 
 SECRET_KEY = os.environ.get("JWT_SECRET", "krishivaani_super_secret_jwt_key_2026")
 ALGORITHM = "HS256"

@@ -3,15 +3,48 @@ import type { Database } from 'sql.js';
 import fs from 'fs';
 import path from 'path';
 import bcrypt from 'bcryptjs';
+import pg from 'pg';
 
+const { Pool } = pg;
 const DB_FILE = path.resolve(process.cwd(), 'krishivaani.db');
+const DATABASE_URL = process.env.DATABASE_URL;
 
 let dbInstance: Database | null = null;
+let pgPoolInstance: pg.Pool | null = null;
+
+export function getPgPool(): pg.Pool | null {
+  if (!DATABASE_URL) return null;
+  if (!pgPoolInstance) {
+    let connectionString = DATABASE_URL;
+    if (connectionString.startsWith('postgres://')) {
+      connectionString = connectionString.replace('postgres://', 'postgresql://');
+    }
+    pgPoolInstance = new Pool({
+      connectionString,
+      ssl: connectionString.includes('localhost') ? false : { rejectUnauthorized: false },
+      max: 10,
+      idleTimeoutMillis: 30000,
+    });
+  }
+  return pgPoolInstance;
+}
 
 export async function getDb(): Promise<Database> {
   if (dbInstance) return dbInstance;
 
   const SQL = await initSqlJs();
+
+  // If DATABASE_URL is provided, attempt to initialize from PostgreSQL
+  const pool = getPgPool();
+  if (pool) {
+    try {
+      console.log('Connecting to PostgreSQL database (Supabase/Render)...');
+      await pool.query('SELECT 1');
+      console.log('✓ PostgreSQL connected successfully.');
+    } catch (err) {
+      console.warn('PostgreSQL connection attempt failed, falling back to local SQLite:', err);
+    }
+  }
 
   if (fs.existsSync(DB_FILE)) {
     try {

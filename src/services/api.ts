@@ -19,7 +19,8 @@ import {
   ExplainablePayload,
 } from '../types';
 
-const API_BASE = '/api';
+const RAW_API_BASE = import.meta.env.VITE_API_BASE_URL || '';
+const API_BASE = RAW_API_BASE ? `${RAW_API_BASE.replace(/\/$/, '')}/api` : '/api';
 
 function getHeaders(): HeadersInit {
   const token = localStorage.getItem('krishivaani_token');
@@ -402,4 +403,10 @@ export const api = {
   getAdminUsers: () => request<any[]>('/admin/users'),
   getAdminFarmers: () => request<any[]>('/admin/farmers'),
   getAdminBuyers: () => request<any[]>('/admin/buyers'),
+
+  // ML Price Prediction
+  getPricePrediction: (cropId: number) => request<any>(`/price-prediction/${cropId}`),
+
+  // Health
+  getHealth: () => request<{ status: string; service: string }>('/health'),
 };
